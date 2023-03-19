@@ -1,0 +1,7 @@
+---
+- name: "Converge"
+  hosts: "all"
+  tasks:
+    - name: "Include cornfeedhobo.epel"
+      ansible.builtin.include_role:
+        name: "cornfeedhobo.epel"

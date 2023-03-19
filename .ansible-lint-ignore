@@ -1,0 +1,3 @@
+tasks/main.yml command-instead-of-module
+tasks/main.yml no-changed-when
+tasks/main.yml no-handler

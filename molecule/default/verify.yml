@@ -1,0 +1,19 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: "Verify"
+  hosts: "all"
+  gather_facts: false
+  tasks:
+    -
+      name: "Check if epel was installed"
+      ansible.builtin.package:
+        name: "epel-release"
+      check_mode: true
+      diff: true
+      register: "epel_stat"
+    -
+      name: "Example assertion"
+      ansible.builtin.assert:
+        that:
+          - "not epel_stat.changed"

@@ -2,7 +2,7 @@
 
 - name: "Ensure epel-release is installed"
   become: true
-  package:
+  ansible.builtin.package:
     name: "{{ epel_package_name }}"
     state: "{{ epel_package_state }}"
   register: "_epel_repo"
@@ -11,7 +11,7 @@
 
 - name: "Import EPEL RPM GPG Key"
   become: true
-  rpm_key:
+  ansible.builtin.rpm_key:
     key: "{{ epel_key_url }}"
   retries: 5
   delay: 30
@@ -21,17 +21,13 @@
 
 - name: "Clean Yum Cache"
   become: true
-  command: "/usr/bin/yum clean all"
-  args:
-    warn: false
+  ansible.builtin.command: "/usr/bin/yum clean all"
   when: "_epel_repo.changed"
   tags: ["epel"]
 
 
 - name: "Refresh Yum Cache"
   become: true
-  command: "/usr/bin/yum makecache"
-  args:
-    warn: false
+  ansible.builtin.command: "/usr/bin/yum makecache"
   when: "_epel_repo.changed"
   tags: ["epel"]
