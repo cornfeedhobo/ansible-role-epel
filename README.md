@@ -1,4 +1,4 @@
-# ansible-role-epel [![Ansible Role](https://img.shields.io/ansible/role/d/61742)](https://galaxy.ansible.com/cornfeedhobo/epel)
+# ansible-role-epel [![Ansible Role](https://img.shields.io/ansible/role/d/cornfeedhobo/epel)](https://galaxy.ansible.com/cornfeedhobo/epel)
 
 Install the EPEL repository. Useful as a dependency for other roles.
 
@@ -18,7 +18,7 @@ Install the EPEL repository. Useful as a dependency for other roles.
 
 ## Requirements
 
-- Minimum Ansible version: `2.1`
+- Minimum Ansible version: `2.9`
 
 ## Default Variables
 

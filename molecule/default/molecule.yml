@@ -1,27 +1,21 @@
 ---
-lint: |
-  set -e
-  flake8
-  yamllint .
-  ansible-lint
 dependency:
   name: "galaxy"
 driver:
   name: "docker"
 platforms:
   -
-    name: "centos-7"
-    image: "quay.io/centos/centos:centos7"
-    pre_build_image: false
-  -
-    name: "centos-stream"
-    image: "quay.io/centos/centos:stream9"
-    pre_build_image: false
+    name: "molecule-almalinux"
+    image: "docker.io/almalinux:9"
+    commands:
+      - "dnf makecache"
+      - >-
+          dnf --assumeyes install
+          bash
+          iproute
+          python3-devel
+          sudo
 provisioner:
   name: "ansible"
-  config_options:
-    defaults:
-      interpreter_python: "/usr/bin/python3"
-      remote_tmp: "/tmp"
 verifier:
   name: "ansible"

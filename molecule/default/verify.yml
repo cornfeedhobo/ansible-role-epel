@@ -1,20 +1,21 @@
 ---
-# This is an example playbook to execute Ansible tests.
-
 -
   name: "Verify"
   hosts: "all"
-  gather_facts: false
+  gather_facts: true
   tasks:
     -
-      name: "Check if epel was installed"
+      name: "Include role variables"
+      ansible.builtin.include_vars: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') }}/defaults/main.yml"
+    -
+      name: "Get the epel package status"
       ansible.builtin.package:
-        name: "epel-release"
+        name: "{{ epel_package_name }}"
       check_mode: true
       diff: true
-      register: "epel_stat"
+      register: "_epel_packages"
     -
-      name: "Example assertion"
+      name: "Assert that epel is already installed"
       ansible.builtin.assert:
         that:
-          - "not epel_stat.changed"
+          - "not _epel_packages.changed"

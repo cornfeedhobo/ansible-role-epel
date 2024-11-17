@@ -5,11 +5,13 @@ galaxy_info:
   description: "Install the EPEL repository. Useful as a dependency for other roles."
   license: "MIT"
   galaxy_tags: ["epel"]
-  min_ansible_version: "2.1"
+  min_ansible_version: "2.9"
   platforms:
     -
       name: "EL"
       versions:
-        - "all"
+        - "7"
+        - "8"
+        - "9"
 
 dependencies: []

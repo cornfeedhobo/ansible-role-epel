@@ -7,3 +7,6 @@
       name: "Include cornfeedhobo.epel"
       ansible.builtin.include_role:
         name: "cornfeedhobo.epel"
+      vars:
+        epel_install: true
+        epel_configure: true

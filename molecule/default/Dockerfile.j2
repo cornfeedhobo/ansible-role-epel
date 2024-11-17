@@ -14,19 +14,8 @@ ENV {{ var }} {{ value }}
 {% endfor %}
 {% endif %}
 
-RUN set -ex && \
-{% if item.name == 'centos-7' %}
-	yum makecache && \
-	yum --assumeyes install \
-		python3 \
-		python3-devel \
-{% elif item.name == 'centos-stream' %}
-	dnf makecache && \
-	dnf --assumeyes install \
-		python \
-		python-devel \
-		python3-dnf \
+{% if item.commands %}
+{% for line in item.commands %}
+RUN {{ line }}
+{% endfor %}
 {% endif %}
-		bash \
-		iproute \
-		sudo
