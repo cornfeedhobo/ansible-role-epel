@@ -2,6 +2,7 @@
 -
   name: "Ensure epel-release is installed"
   become: true
+  when: "ansible_os_family == 'RedHat' and ansible_distribution != 'Fedora'"
   ansible.builtin.package:
     name: "{{ epel_package_name }}"
     state: "{{ epel_package_state }}"
@@ -9,7 +10,9 @@
   tags: ["epel"]
 -
   name: "Import EPEL RPM GPG Key" # noqa: no-handler
-  when: "_epel_repo.changed"
+  when:
+    - "_epel_repo.changed"
+    - "ansible_os_family == 'RedHat' and ansible_distribution != 'Fedora'"
   become: true
   ansible.builtin.rpm_key:
     key: "{{ epel_key_url }}"
@@ -18,13 +21,17 @@
   tags: ["epel"]
 -
   name: "Clean Cache" # noqa: no-handler no-changed-when
-  when: "_epel_repo.changed"
+  when:
+    - "_epel_repo.changed"
+    - "ansible_os_family == 'RedHat' and ansible_distribution != 'Fedora'"
   become: true
   ansible.builtin.command: "/usr/bin/yum clean all"
   tags: ["epel"]
 -
   name: "Refresh Cache" # noqa: no-handler no-changed-when command-instead-of-module
-  when: "_epel_repo.changed"
+  when:
+    - "_epel_repo.changed"
+    - "ansible_os_family == 'RedHat' and ansible_distribution != 'Fedora'"
   become: true
   ansible.builtin.command: "/usr/bin/yum makecache"
   tags: ["epel"]
