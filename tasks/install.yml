@@ -1,0 +1,57 @@
+---
+
+- name: "install | Ensure dnf-plugins are installed on Rocky/AlmaLinux"
+  when:
+    - "ansible_distribution in ['AlmaLinux', 'Rocky']"
+  become: true
+  ansible.builtin.dnf:
+    name: "dnf-plugins-core"
+    state: "present"
+
+- name: "install | Enable DNF module for Rocky/AlmaLinux"
+  become: true
+  ansible.builtin.shell: |
+    dnf config-manager --set-enabled crb
+  changed_when: false
+
+- name: "install | Ensure epel-release is installed"
+  when:
+    - "ansible_os_family == 'RedHat' and ansible_distribution != 'Fedora'"
+  become: true
+  ansible.builtin.package:
+    name: "{{ epel_package_name }}"
+    state: "{{ epel_package_state }}"
+  register: "_epel_repo"
+
+- name: "install | Import EPEL RPM GPG Key" # noqa: no-handler
+  when:
+    - "_epel_repo.changed"
+    - "ansible_os_family == 'RedHat' and ansible_distribution != 'Fedora'"
+  become: true
+  ansible.builtin.rpm_key:
+    key: "{{ epel_key_url }}"
+  retries: 5
+  delay: 30
+
+- name: "install | Clean Cache" # noqa: no-handler no-changed-when
+  when:
+    - "_epel_repo.changed"
+    - "ansible_os_family == 'RedHat' and ansible_distribution != 'Fedora'"
+  become: true
+  ansible.builtin.command: "/usr/bin/yum clean all"
+
+- name: "install | Refresh Cache" # noqa: no-handler no-changed-when command-instead-of-module
+  when:
+    - "_epel_repo.changed"
+    - "ansible_os_family == 'RedHat' and ansible_distribution != 'Fedora'"
+  become: true
+  ansible.builtin.command: "/usr/bin/yum makecache"
+
+- name: "install | Extra Packages"
+  when:
+    - "ansible_os_family == 'RedHat' and ansible_distribution != 'Fedora'"
+    - "not ansible_check_mode or (ansible_check_mode and not _epel_repo.changed)"
+  become: true
+  ansible.builtin.package:
+    name: "{{ epel_extra_packages | list }}"
+    state: "{{ epel_package_state }}"
