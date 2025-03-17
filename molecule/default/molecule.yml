@@ -1,8 +1,11 @@
 ---
+
 dependency:
   name: "galaxy"
+
 driver:
   name: "docker"
+
 platforms:
   -
     name: "molecule-almalinux"
@@ -15,7 +18,9 @@ platforms:
           iproute
           python3-devel
           sudo
+
 provisioner:
   name: "ansible"
+
 verifier:
   name: "ansible"

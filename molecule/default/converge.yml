@@ -1,4 +1,5 @@
 ---
+
 -
   name: "Converge"
   hosts: "all"
@@ -10,3 +11,4 @@
       vars:
         epel_install: true
         epel_configure: true
+        epel_extra_packages: ["jq"]

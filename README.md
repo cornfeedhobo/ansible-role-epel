@@ -6,6 +6,7 @@ Install the EPEL repository. Useful as a dependency for other roles.
 
 - [Requirements](#requirements)
 - [Default Variables](#default-variables)
+  - [epel_extra_packages](#epel_extra_packages)
   - [epel_key_url](#epel_key_url)
   - [epel_package_name](#epel_package_name)
   - [epel_package_state](#epel_package_state)
@@ -22,7 +23,19 @@ Install the EPEL repository. Useful as a dependency for other roles.
 
 ## Default Variables
 
+### epel_extra_packages
+
+a convenience list of any packages you would like installed from epel
+
+#### Default value
+
+```YAML
+epel_extra_packages: []
+```
+
 ### epel_key_url
+
+URL where EPEL GPG signing key can be obtained
 
 #### Default value
 
@@ -33,6 +46,8 @@ epel_key_url: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-{{ ansible_
 
 ### epel_package_name
 
+name of the package that installs the epel release repo
+
 #### Default value
 
 ```YAML
@@ -40,6 +55,8 @@ epel_package_name: epel-release
 ```
 
 ### epel_package_state
+
+control the state of the epel package and any packages installed from it.
 
 #### Default value
 
